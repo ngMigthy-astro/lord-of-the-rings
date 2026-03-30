@@ -1,0 +1,16 @@
+@import "tailwindcss";
+
+@theme {
+  --color-lotr-gold: #f59e0b;
+  --color-lotr-dark: #08080a;
+}
+
+body {
+  background-color: #08080a;
+  font-family: 'Inter', sans-serif;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #3f3f46 #18181b;
+}
