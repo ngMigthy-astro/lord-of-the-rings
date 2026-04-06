@@ -2,13 +2,34 @@
 import { ClientRouter } from "astro:transitions";
 import '../styles/global.css'
 import Navbar from "../components/Navbar.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = "La Tierra Media — Personajes y Películas de El Señor de los Anillos",
+  description = "Explora personajes, razas y películas de El Señor de los Anillos. Información detallada sobre la Tierra Media de J.R.R. Tolkien.",
+  ogImage = "/middle earth (1).png",
+  noindex = false,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
+const ogImageURL = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
+
+const fullTitle = title.includes("La Tierra Media")
+  ? title
+  : `${title} | La Tierra Media`;
 ---
 
 <!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,8 +38,33 @@ import Navbar from "../components/Navbar.astro";
       rel="stylesheet"
     />
     <meta name="generator" content={Astro.generator} />
-    <title>La Tierra Media — Personajes</title>
+
+    <!-- SEO primario -->
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+    {!noindex && <meta name="robots" content="index, follow, max-snippet:160, max-image-preview:large" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="es_ES" />
+    <meta property="og:site_name" content="La Tierra Media" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
     <ClientRouter />
+    <slot name="head" />
   </head>
   <body class="bg-lotr-dark text-zinc-100 min-h-screen">
 

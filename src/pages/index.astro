@@ -7,6 +7,9 @@ const characters = await getCharacters();
 const movies = await getMovies();
 ---
 
-<Layout>
+<Layout
+  title="La Tierra Media — Personajes y Películas de El Señor de los Anillos"
+  description="Explora los personajes, razas y películas de El Señor de los Anillos. Busca a Frodo, Gandalf, Aragorn y más personajes de la Tierra Media de J.R.R. Tolkien."
+>
   <CharacterSearch client:load characters={characters} />
 </Layout>

@@ -26,4 +26,4 @@ export const paginatedSchema = <T extends z.ZodTypeAny>(schema: T) =>
     pages: z.number(),
   });
 
-export type Movies = z.infer<typeof paginatedSchema>;
+export type Movie = z.infer<typeof paginatedSchema>;

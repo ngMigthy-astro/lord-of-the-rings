@@ -15,9 +15,34 @@ const details = [
   { label: "Muerte", value: character.death },
   { label: "Cónyuge", value: character.spouse },
 ];
+
+const descriptionParts = [
+  character.race ? `${character.race} de la Tierra Media` : null,
+  character.realm ? `del reino de ${character.realm.split(",")[0]}` : null,
+  character.birth ? `nacido en ${character.birth}` : null,
+].filter(Boolean);
+
+const seoDescription = descriptionParts.length
+  ? `${character.name}: ${descriptionParts.join(", ")}. Descubre todos los detalles de este personaje de El Señor de los Anillos.`
+  : `Descubre a ${character.name}, personaje de El Señor de los Anillos de J.R.R. Tolkien. Raza, reino, historia y más.`;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": character.name,
+  ...(character.race && { "description": `${character.race} de la Tierra Media` }),
+  ...(character.wikiUrl && { "sameAs": character.wikiUrl }),
+  ...(character.birth && { "birthDate": character.birth }),
+  ...(character.death && { "deathDate": character.death }),
+  ...(character.spouse && { "spouse": { "@type": "Person", "name": character.spouse } }),
+};
 ---
 
-<Layout>
+<Layout
+  title={character.name}
+  description={seoDescription}
+>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" />
   <div class="max-w-2xl mx-auto px-4 pb-20">
     <!-- botón volver -->
     <a

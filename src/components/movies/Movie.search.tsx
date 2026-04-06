@@ -1,6 +1,6 @@
 import { useState } from "react";
 // import type { Character } from "../../schemas/character.schema";
-// import CharacterCard from "../characters/CharacterCard";
+import CharacterCard from "../characters/CharacterCard";
 import { ArrowBigRight, ArrowBigLeft } from "lucide-react";
 import type { Movies } from "../../schemas/movie.schema";
 
@@ -14,8 +14,8 @@ export default function CharacterSearch({ movies }: Props) {
   const [page, setPage] = useState(1);
   const start = (page - 1) * 12;
 
-  const filtered = movies.filter((m) =>
-    m.name.toLowerCase().includes(query.toLowerCase()),
+  const filtered = movies.filter((movie:Movies) =>
+    movie.name.toLowerCase().includes(query.toLowerCase()),
   );
   const totalPages = Math.ceil(filtered.length / 12);
   const paginated = filtered.slice(start, start + 12);
