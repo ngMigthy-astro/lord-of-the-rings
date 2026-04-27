@@ -9,10 +9,10 @@
   html {
     scroll-behavior: smooth;
   }
-  
+
   body {
     background-color: #050505;
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
     overflow-x: hidden;
   }
 
@@ -20,16 +20,16 @@
   ::-webkit-scrollbar {
     width: 6px;
   }
-  
+
   ::-webkit-scrollbar-track {
     background: #050505;
   }
-  
+
   ::-webkit-scrollbar-thumb {
     background: #451a03;
     border-radius: 10px;
   }
-  
+
   ::-webkit-scrollbar-thumb:hover {
     background: #92400e;
   }
@@ -41,5 +41,5 @@
 }
 
 .bg-noise {
-  background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
 }

@@ -3,7 +3,7 @@ import type { Book } from "@/schemas/book.schema";
 import { Book as BookIcon, ChevronRight } from "lucide-react";
 
 interface Props {
-  book: Book;
+  readonly book: Book;
 }
 
 const { book } = Astro.props;
