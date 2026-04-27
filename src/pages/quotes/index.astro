@@ -1,0 +1,27 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getQuotes } from "@/services/quotes.service";
+import { getCharacters } from "@/services/characters.service";
+import { getMovies } from "@/services/movies.service";
+import QuoteSearch from "@/components/quotes/QuoteSearch";
+
+const [quotes, characters, movies] = await Promise.all([
+  getQuotes(),
+  getCharacters(),
+  getMovies()
+]);
+
+const charactersMap = Object.fromEntries(characters.map(c => [c._id, c.name]));
+const moviesMap = Object.fromEntries(movies.map(m => [m.id, m.name]));
+---
+
+<Layout title="Frases Legendarias de la Tierra Media">
+  <main>
+    <QuoteSearch 
+      client:load 
+      quotes={quotes} 
+      charactersMap={charactersMap} 
+      moviesMap={moviesMap} 
+    />
+  </main>
+</Layout>

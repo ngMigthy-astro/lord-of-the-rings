@@ -1,15 +1,118 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import { getCharacters } from "../services/characters.service";
-import CharacterSearch from "../components/characters/Character.search";
-import { getMovies } from "../services/movies.service";
-const characters = await getCharacters();
-const movies = await getMovies();
+import {
+  Users,
+  Film,
+  BookOpen,
+  ChevronRight,
+  Quote as QuoteIcon,
+} from "lucide-react";
+import { getQuotes } from "@/services/quotes.service";
+
+const gates = [
+  {
+    title: "Personajes",
+    description:
+      "Conoce a los héroes, villanos y criaturas que habitan la Tierra Media.",
+    href: "/characters",
+    icon: Users,
+    color: "from-blue-500/20",
+  },
+  {
+    title: "Películas",
+    description:
+      "Explora la trilogía original y las obras cinematográficas de Arda.",
+    href: "/movies",
+    icon: Film,
+    color: "from-amber-500/20",
+  },
+  {
+    title: "Libros",
+    description: "Los manuscritos antiguos y las crónicas de J.R.R. Tolkien.",
+    href: "/books",
+    icon: BookOpen,
+    color: "from-emerald-500/20",
+  },
+];
+
+// Fetch a random quote for the "featured" section
+const allQuotes = await getQuotes();
+const featuredQuote = allQuotes[Math.floor(Math.random() * allQuotes.length)];
 ---
 
 <Layout
-  title="La Tierra Media — Personajes y Películas de El Señor de los Anillos"
-  description="Explora los personajes, razas y películas de El Señor de los Anillos. Busca a Frodo, Gandalf, Aragorn y más personajes de la Tierra Media de J.R.R. Tolkien."
+  title="La Tierra Media — Archivos de Arda"
+  description="Explora los registros oficiales de la Tierra Media: Personajes, Películas y Libros de El Señor de los Anillos."
 >
-  <CharacterSearch client:load characters={characters} />
+  <div class="container mx-auto px-6 py-20">
+    <!-- Gates Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-32">
+      {
+        gates.map((gate) => (
+          <a
+            href={gate.href}
+            class="group relative p-10 bg-white/2 backdrop-blur-xl border border-white/5 rounded-[3rem] overflow-hidden hover:bg-white/5 hover:border-amber-500/30 transition-all duration-700 flex flex-col h-100 shadow-[0_30px_60px_rgba(0,0,0,0.4)]"
+          >
+            <div
+              class={`absolute inset-0 bg-linear-to-br ${gate.color} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000`}
+            />
+
+            <div class="relative z-10">
+              <div class="mb-8 p-4 bg-white/5 rounded-2xl w-fit group-hover:bg-amber-500/10 group-hover:scale-110 transition-all duration-500">
+                <gate.icon className="text-zinc-400 group-hover:text-amber-500 w-8 h-8" />
+              </div>
+
+              <h2 class="text-4xl font-bold text-white font-serif italic mb-4 tracking-tight group-hover:translate-x-2 transition-transform duration-500">
+                {gate.title}
+              </h2>
+
+              <p class="text-zinc-500 text-lg leading-relaxed font-serif italic group-hover:text-zinc-300 transition-colors duration-500">
+                {gate.description}
+              </p>
+            </div>
+
+            <div class="mt-auto relative z-10 flex items-center justify-between">
+              <span class="text-[10px] uppercase tracking-[0.4em] font-black text-zinc-600 group-hover:text-amber-500 transition-colors">
+                Abrir Archivos
+              </span>
+              <div class="p-3 rounded-full border border-white/5 group-hover:border-amber-500/50 group-hover:bg-amber-500/5 transition-all">
+                <ChevronRight
+                  size={20}
+                  className="text-zinc-600 group-hover:text-amber-500 group-hover:translate-x-1 transition-all"
+                />
+              </div>
+            </div>
+
+            <div class="absolute bottom-0 left-0 h-1 w-0 bg-linear-to-r from-amber-600 to-transparent group-hover:w-full transition-all duration-1000" />
+          </a>
+        ))
+      }
+    </div>
+
+    <!-- Featured Quote (Standalone Chapter of standalone interest) -->
+    {
+      featuredQuote && (
+        <section class="max-w-4xl mx-auto py-24 border-t border-white/5">
+          <div class="flex flex-col items-center text-center">
+            <div class="p-4 bg-amber-500/5 rounded-full mb-12">
+              <QuoteIcon className="text-amber-600 w-8 h-8" />
+            </div>
+            <p class="text-3xl md:text-5xl font-serif italic text-zinc-200 leading-tight mb-12 relative">
+              <span class="absolute -top-12 -left-8 text-9xl text-amber-500/5 font-serif select-none italic">
+                “
+              </span>
+              {featuredQuote.dialog}
+            </p>
+            <div class="h-1 w-24 bg-linear-to-r from-transparent via-amber-900/50 to-transparent mb-8" />
+            <a
+              href="/quotes"
+              class="text-[10px] uppercase tracking-[0.5em] font-black text-zinc-500 hover:text-amber-500 transition-colors"
+            >
+              Explorar más sabiduría
+            </a>
+          </div>
+        </section>
+      )
+    }
+  </div>
 </Layout>

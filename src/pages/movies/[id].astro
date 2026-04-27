@@ -1,0 +1,118 @@
+---
+export const prerender = false;
+
+import Layout from "@/layouts/Layout.astro";
+import { getMovieById } from "@/services/movies.service";
+import { getQuotes } from "@/services/quotes.service";
+import QuotesList from "@/components/common/QuotesList";
+import { ChevronLeft, Clock, Trophy, Coins, Calendar } from "lucide-react";
+
+const { id } = Astro.params;
+if (!id) return Astro.redirect("/");
+
+const [movie, quotes] = await Promise.all([getMovieById(id), getQuotes(id)]);
+---
+
+<Layout title={movie.name}>
+  <main class="container mx-auto px-6 py-20">
+    <!-- Back Navigation -->
+    <a
+      href="/movies"
+      class="group inline-flex items-center gap-3 text-zinc-500 hover:text-amber-500 transition-all mb-16"
+    >
+      <div
+        class="p-2 rounded-full border border-white/5 group-hover:border-amber-500/20 group-hover:bg-amber-500/5 transition-all"
+      >
+        <ChevronLeft
+          size={18}
+          className="group-hover:-translate-x-1 transition-transform"
+        />
+      </div>
+      <span class="text-[10px] uppercase tracking-[0.4em] font-black"
+        >Regresar a la Biblioteca</span
+      >
+    </a>
+
+    <!-- Movie Hero -->
+    <header class="relative mb-24">
+      <div
+        class="absolute -top-20 -left-20 w-64 h-64 bg-amber-600/10 blur-[100px] rounded-full pointer-events-none opacity-50"
+      >
+      </div>
+
+      <div
+        class="relative z-10 flex flex-col items-center text-center max-w-4xl mx-auto"
+      >
+        <div class="flex items-center gap-4 mb-6">
+          <div class="h-px w-12 bg-amber-900/50"></div>
+          <span
+            class="text-amber-600 text-xs tracking-[0.5em] font-black uppercase"
+            >Filmografía de Arda</span
+          >
+          <div class="h-px w-12 bg-amber-900/50"></div>
+        </div>
+
+        <h1
+          class="text-6xl md:text-8xl font-black text-white font-serif italic mb-12 tracking-tight drop-shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
+        >
+          {movie.name}
+        </h1>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 w-full">
+          <div
+            class="bg-white/2 border border-white/5 backdrop-blur-md p-6 rounded-4xl flex flex-col items-center gap-2 hover:bg-white/5 transition-all"
+          >
+            <Clock className="text-amber-700 w-5 h-5 mb-1" />
+            <span
+              class="text-zinc-500 text-[10px] uppercase tracking-widest font-bold"
+              >Duración</span
+            >
+            <span class="text-white font-serif italic text-xl"
+              >{movie.runtimeInMinutes}m</span
+            >
+          </div>
+
+          <div
+            class="bg-white/2 border border-white/5 backdrop-blur-md p-6 rounded-4xl flex flex-col items-center gap-2 hover:bg-white/5 transition-all"
+          >
+            <Trophy className="text-amber-700 w-5 h-5 mb-1" />
+            <span
+              class="text-zinc-500 text-[10px] uppercase tracking-widest font-bold"
+              >Premios</span
+            >
+            <span class="text-white font-serif italic text-xl"
+              >{movie.academyAwardWins}</span
+            >
+          </div>
+
+          <div
+            class="bg-white/2 border border-white/5 backdrop-blur-md p-6 rounded-4xl flex flex-col items-center gap-2 hover:bg-white/5 transition-all"
+          >
+            <Coins className="text-amber-700 w-5 h-5 mb-1" />
+            <span
+              class="text-zinc-500 text-[10px] uppercase tracking-widest font-bold"
+              >Presupuesto</span
+            >
+            <span class="text-white font-serif italic text-xl"
+              >${movie.budgetInMillions}M</span
+            >
+          </div>
+
+          <div
+            class="bg-white/2 border border-white/5 backdrop-blur-md p-6 rounded-4xl flex flex-col items-center gap-2 hover:bg-white/5 transition-all"
+          >
+            <Calendar className="text-amber-700 w-5 h-5 mb-1" />
+            <span
+              class="text-zinc-500 text-[10px] uppercase tracking-widest font-bold"
+              >Lanzamiento</span
+            >
+            <span class="text-white font-serif italic text-xl">TA</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Quotes Section -->
+    <QuotesList client:load quotes={quotes} title="Diálogos de Leyenda" />
+  </main>
+</Layout>

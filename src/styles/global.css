@@ -2,15 +2,44 @@
 
 @theme {
   --color-lotr-gold: #f59e0b;
-  --color-lotr-dark: #08080a;
+  --color-lotr-dark: #050505;
 }
 
-body {
-  background-color: #08080a;
-  font-family: 'Inter', sans-serif;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    background-color: #050505;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* Custom Golden Scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: #050505;
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: #451a03;
+    border-radius: 10px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: #92400e;
+  }
 }
 
-* {
-  scrollbar-width: thin;
-  scrollbar-color: #3f3f46 #18181b;
+/* Custom Utilities for cinematic text */
+.text-glow-amber {
+  text-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+}
+
+.bg-noise {
+  background-image: url('https://grainy-gradients.vercel.app/noise.svg');
 }

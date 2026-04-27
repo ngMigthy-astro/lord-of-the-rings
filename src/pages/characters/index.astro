@@ -1,0 +1,13 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getCharacters } from "@/services/characters.service";
+import CharacterSearch from "@/components/characters/Character.search";
+
+const characters = await getCharacters();
+---
+
+<Layout title="Personajes de la Tierra Media">
+  <main>
+    <CharacterSearch client:load characters={characters} />
+  </main>
+</Layout>

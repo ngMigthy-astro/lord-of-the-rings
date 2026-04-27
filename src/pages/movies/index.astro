@@ -1,0 +1,13 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getMovies } from "@/services/movies.service";
+import MovieSearch from "@/components/movies/Movie.search";
+
+const movies = await getMovies();
+---
+
+<Layout title="Películas de la Tierra Media">
+  <main>
+    <MovieSearch client:load movies={movies} />
+  </main>
+</Layout>

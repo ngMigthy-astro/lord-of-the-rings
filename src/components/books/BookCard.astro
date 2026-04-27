@@ -1,0 +1,48 @@
+---
+import type { Book } from "@/schemas/book.schema";
+import { Book as BookIcon, ChevronRight } from "lucide-react";
+
+interface Props {
+  book: Book;
+}
+
+const { book } = Astro.props;
+---
+
+<a
+  href={`/books/${book.id}`}
+  class="group relative p-8 bg-white/2 backdrop-blur-md rounded-4xl border border-white/5 hover:border-amber-500/30 transition-all duration-500 hover:-translate-y-2 flex flex-col h-full overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.3)]"
+>
+  <div
+    class="absolute -top-10 -right-10 opacity-5 group-hover:opacity-10 transition-opacity"
+  >
+    <BookIcon size={120} />
+  </div>
+
+  <div
+    class="mb-4 p-3 bg-amber-500/10 rounded-2xl border border-amber-500/20 w-fit group-hover:bg-amber-500/20 transition-all"
+  >
+    <BookIcon className="text-amber-500 w-6 h-6" />
+  </div>
+
+  <h3
+    class="text-2xl font-bold text-zinc-100 group-hover:text-amber-500 transition-colors mb-4 font-serif italic leading-tight"
+  >
+    {book.name}
+  </h3>
+
+  <div
+    class="mt-auto flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] font-black text-zinc-600 group-hover:text-amber-600 transition-all duration-500"
+  >
+    Explorar Tomo
+    <ChevronRight
+      size={14}
+      className="group-hover:translate-x-1 transition-transform"
+    />
+  </div>
+
+  <div
+    class="absolute bottom-0 left-0 h-0.5 w-0 bg-linear-to-r from-transparent via-amber-600 to-transparent group-hover:w-full transition-all duration-700"
+  >
+  </div>
+</a>

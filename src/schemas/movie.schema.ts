@@ -16,14 +16,4 @@ export const MoviesSchema = z
     id: data._id,
   }));
 
-export const paginatedSchema = <T extends z.ZodTypeAny>(schema: T) =>
-  z.object({
-    docs: z.array(schema),
-    total: z.number(),
-    limit: z.number(),
-    offset: z.number(),
-    page: z.number(),
-    pages: z.number(),
-  });
-
-export type Movie = z.infer<typeof paginatedSchema>;
+export type Movie = z.infer<typeof MoviesSchema>;

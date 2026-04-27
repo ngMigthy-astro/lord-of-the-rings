@@ -1,6 +1,6 @@
 ---
 import { ClientRouter } from "astro:transitions";
-import '../styles/global.css'
+import "../styles/global.css";
 import Navbar from "../components/Navbar.astro";
 
 interface Props {
@@ -17,7 +17,10 @@ const {
   noindex = false,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).toString();
+const canonicalURL = new URL(
+  Astro.url.pathname,
+  Astro.site ?? Astro.url.origin,
+).toString();
 const ogImageURL = new URL(ogImage, Astro.site ?? Astro.url.origin).toString();
 
 const fullTitle = title.includes("La Tierra Media")
@@ -34,7 +37,7 @@ const fullTitle = title.includes("La Tierra Media")
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cinzel:wght@600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Cinzel:wght@700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap"
       rel="stylesheet"
     />
     <meta name="generator" content={Astro.generator} />
@@ -44,7 +47,14 @@ const fullTitle = title.includes("La Tierra Media")
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalURL} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
-    {!noindex && <meta name="robots" content="index, follow, max-snippet:160, max-image-preview:large" />}
+    {
+      !noindex && (
+        <meta
+          name="robots"
+          content="index, follow, max-snippet:160, max-image-preview:large"
+        />
+      )
+    }
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -66,37 +76,101 @@ const fullTitle = title.includes("La Tierra Media")
     <ClientRouter />
     <slot name="head" />
   </head>
-  <body class="bg-lotr-dark text-zinc-100 min-h-screen">
+  <body
+    class="bg-lotr-dark text-zinc-100 min-h-screen selection:bg-amber-500/30 selection:text-amber-200 antialiased"
+  >
+    <!-- Capas de Atmósfera -->
+    <div
+      class="fixed inset-0 pointer-events-none opacity-[0.03] z-100 bg-[url('https://grainy-gradients.vercel.app/noise.svg')]"
+    >
+    </div>
+    <div
+      class="fixed top-[-10%] left-1/2 -translate-x-1/2 w-[80%] h-100 bg-amber-500/10 blur-[120px] rounded-full pointer-events-none opacity-40"
+    >
+    </div>
+    <div
+      class="fixed bottom-[-10%] right-[-10%] w-100 h-100 bg-amber-600/5 blur-[100px] rounded-full pointer-events-none opacity-20"
+    >
+    </div>
 
     <Navbar />
 
-    <!-- header strip con imagen de fondo -->
-    <header class="relative h-48 overflow-hidden">
+    <!-- Header Visual -->
+    <header
+      class="relative h-[40vh] min-h-75 flex items-center justify-center overflow-hidden border-b border-white/5"
+    >
       <div
-        class="absolute inset-0 bg-cover"
-        style="background-image: url('/middle earth (1).png'); background-position: center 3%;"
-      />
-      <div class="absolute inset-0 bg-linear-to-b from-black/40 via-black/60 to-lotr-dark" />
-      <div class="relative h-full flex flex-col items-center justify-center gap-2">
-        <h1
-          class="text-amber-400 text-4xl font-bold tracking-[0.2em] drop-shadow-[0_2px_20px_rgba(245,158,11,0.5)]"
-          style="font-family: 'Cinzel', serif;"
+        class="absolute inset-0 bg-cover bg-fixed opacity-40 scale-105"
+        style="background-image: url('/middle earth (1).png'); background-position: center 20%;"
+      >
+      </div>
+      <div
+        class="absolute inset-0 bg-linear-to-b from-transparent via-lotr-dark/80 to-lotr-dark"
+      >
+      </div>
+
+      <div class="relative z-10 flex flex-col items-center gap-6 px-4">
+        <div
+          class="w-16 h-px bg-linear-to-r from-transparent via-amber-500 to-transparent"
         >
-          La Tierra Media
-        </h1>
-        <p class="text-zinc-400 text-sm italic" style="font-family: 'Crimson Text', serif;">
-          "No todas las personas que vagan están perdidas"
+        </div>
+        <div class="flex flex-col items-center">
+          <p
+            class="text-amber-500 text-5xl md:text-7xl font-black tracking-[0.3em] uppercase drop-shadow-[0_0_30px_rgba(245,158,11,0.3)] text-center"
+            style="font-family: 'Cinzel', serif;"
+          >
+            Arda
+          </p>
+          <div class="flex items-center gap-4 mt-2">
+            <div class="h-px w-8 bg-amber-900/50"></div>
+            <p
+              class="text-zinc-500 text-xs md:text-sm tracking-[0.4em] uppercase font-bold"
+              style="font-family: 'Cinzel', serif;"
+            >
+              Crónicas de la Tierra Media
+            </p>
+            <div class="h-px w-8 bg-amber-900/50"></div>
+          </div>
+        </div>
+        <p
+          class="text-zinc-400 text-sm md:text-base italic max-w-md text-center leading-relaxed"
+          style="font-family: 'Crimson Text', serif;"
+        >
+          "Un anillo para gobernarlos a todos, un anillo para encontrarlos..."
         </p>
+        <div
+          class="w-16 h-px bg-linear-to-r from-transparent via-amber-500 to-transparent"
+        >
+        </div>
       </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 py-10">
+    <main class="max-w-7xl mx-auto px-6 py-10" transition:animate="fade">
       <slot />
     </main>
 
-    <footer class="text-center py-6 border-t border-zinc-800/50 text-zinc-600 text-xs mt-10 tracking-widest uppercase">
-      Forjado en los fuegos del Monte del Destino
+    <footer
+      class="relative py-20 border-t border-white/5 mt-20 overflow-hidden"
+    >
+      <div
+        class="absolute top-0 left-1/2 -translate-x-1/2 w-1/2 h-px bg-linear-to-r from-transparent via-amber-900/50 to-transparent"
+      >
+      </div>
+      <div class="container mx-auto px-6 text-center">
+        <p
+          class="text-amber-600/60 text-[10px] tracking-[0.5em] uppercase font-bold mb-4"
+        >
+          Namárië
+        </p>
+        <p class="text-zinc-500 text-xs tracking-widest uppercase">
+          © {new Date().getFullYear()} — La Biblioteca de Minas Tirith
+        </p>
+        <div
+          class="flex justify-center gap-6 mt-8 opacity-30 grayscale hover:grayscale-0 transition-all"
+        >
+          <!-- Aquí podrías poner iconos de redes o créditos -->
+        </div>
+      </div>
     </footer>
-
   </body>
 </html>

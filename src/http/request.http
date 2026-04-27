@@ -1,0 +1,4 @@
+### Obtener todos los libros
+GET https://the-one-api.dev/v2/book
+Authorization: Bearer PQKaT1BOF9Pu_ageDwuY
+Accept: application/json

@@ -1,4 +1,5 @@
-import { Venus, Mars } from "lucide-react";
+import { Venus, Mars, MapPin, Heart } from "lucide-react";
+
 interface Props {
   id: string;
   name: string;
@@ -21,74 +22,67 @@ export default function CharacterCard({
   spouse,
 }: Readonly<Props>) {
   return (
-    <a href={`/character/${id}`} className="block group h-full">
-      <article className="h-full relative overflow-hidden bg-zinc-900 border border-zinc-800 rounded-2xl p-5 flex flex-col gap-4 group-hover:border-zinc-700 group-hover:shadow-[0_8px_40px_rgba(0,0,0,0.4)] transition-all duration-300">
-        {/* acento dorado superior */}
-        <div className="absolute top-0 left-0 right-0 h-0.5 bg-linear-to-r from-transparent via-amber-500/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+    <a href={`/characters/${id}`} className="block group h-full">
+      <article className="h-full relative overflow-hidden bg-white/2 backdrop-blur-md border border-white/5 rounded-3xl p-6 flex flex-col gap-5 hover:bg-white/2 hover:border-amber-500/30 hover:shadow-[0_20px_50px_rgba(0,0,0,0.6)] transition-all duration-500 group-hover:-translate-y-1">
+        {/* Glow Effect */}
+        <div className="absolute -top-24 -right-24 w-48 h-48 bg-amber-500/10 blur-[60px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-        {/* encabezado */}
-        <div className="flex items-start justify-between gap-3">
-          <h2 className="text-zinc-100 text-sm font-semibold leading-snug group-hover:text-amber-400 transition-colors duration-200">
-            {name}
-          </h2>
-          {gender && (
-            <span className="text-zinc-600 text-sm shrink-0 group-hover:text-zinc-400 transition-colors">
-              {gender === "Male" ? <Mars></Mars> : <Venus></Venus>}
-            </span>
-          )}
+        {/* Header */}
+        <div className="flex items-start justify-between gap-4 relative z-10">
+          <div className="flex flex-col gap-1">
+            <h2 className="text-zinc-100 text-xl font-bold font-serif italic tracking-tight group-hover:text-amber-400 transition-colors duration-300">
+              {name}
+            </h2>
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] uppercase tracking-[0.2em] font-bold text-amber-600/80">
+                {race || "Mortal"}
+              </span>
+              {gender && (
+                <span className="text-zinc-600 scale-75">
+                  {gender === "Male" ? <Mars size={14} /> : <Venus size={14} />}
+                </span>
+              )}
+            </div>
+          </div>
         </div>
 
-        {/* badges */}
-        <div className="flex flex-wrap gap-1.5">
-          {race && (
-            <span className="bg-amber-500/8 border border-amber-500/15 text-amber-500/70 rounded-md px-2 py-0.5 text-[11px] font-medium">
-              {race}
-            </span>
-          )}
+        {/* Info Grid */}
+        <div className="grid grid-cols-1 gap-3 relative z-10">
           {realm && (
-            <span className="bg-zinc-800 border border-zinc-700/60 text-zinc-500 rounded-md px-2 py-0.5 text-[11px]">
-              {realm}
-            </span>
+            <div className="flex items-center gap-3 text-zinc-500">
+              <MapPin size={12} className="text-amber-700" />
+              <span className="text-[11px] font-medium truncate">{realm}</span>
+            </div>
+          )}
+          {spouse && spouse !== "NaN" && (
+            <div className="flex items-center gap-3 text-zinc-500">
+              <Heart size={12} className="text-amber-700" />
+              <span className="text-[11px] font-medium truncate">{spouse}</span>
+            </div>
           )}
         </div>
 
-        {/* datos extra */}
-        {(birth || death || spouse) && (
-          <div className="mt-auto pt-3 border-t border-zinc-800 flex flex-col gap-1.5">
+        {/* Footer info */}
+        {(birth || death) && (
+          <div className="mt-auto pt-4 border-t border-white/5 flex flex-col gap-1 relative z-10">
             {birth && (
-              <div className="flex items-baseline gap-2">
-                <span className="text-zinc-600 text-[10px] uppercase tracking-wider w-12 shrink-0">
-                  Nace
-                </span>
-                <span className="text-zinc-500 text-[11px] truncate">
-                  {birth}
-                </span>
+              <div className="flex justify-between items-center text-[9px] uppercase tracking-widest text-zinc-600">
+                <span>Nacimiento</span>
+                <span className="text-zinc-400 font-bold">{birth}</span>
               </div>
             )}
             {death && (
-              <div className="flex items-baseline gap-2">
-                <span className="text-zinc-600 text-[10px] uppercase tracking-wider w-12 shrink-0">
-                  Muere
-                </span>
-                <span className="text-zinc-500 text-[11px] truncate">
-                  {death}
-                </span>
-              </div>
-            )}
-            {spouse && (
-              <div className="flex items-baseline gap-2">
-                <span className="text-zinc-600 text-[10px] uppercase tracking-wider w-12 shrink-0">
-                  Cónyuge
-                </span>
-                <span className="text-zinc-500 text-[11px] truncate">
-                  {spouse}
-                </span>
+              <div className="flex justify-between items-center text-[9px] uppercase tracking-widest text-zinc-600 mt-1">
+                <span>Muerte</span>
+                <span className="text-zinc-400 font-bold">{death}</span>
               </div>
             )}
           </div>
         )}
+
+        {/* Bottom Bar */}
+        <div className="absolute bottom-0 left-0 h-0.5 bg-linear-to-r from-transparent via-amber-600 to-transparent w-0 group-hover:w-full transition-all duration-700"></div>
       </article>
     </a>
-
   );
 }

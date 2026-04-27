@@ -1,20 +1,57 @@
 ---
-const path = `${Astro.url.pathname}`
-const activeRoute = (url: string) =>
-  path === url ? "text-amber-400" : "text-zinc-500";
+import { Home, Book, Film, Users, Quote, Scroll } from "lucide-react";
+
+const navItems = [
+  { href: "/", label: "Inicio", icon: Home },
+  { href: "/characters", label: "Personajes", icon: Users },
+  { href: "/movies", label: "Películas", icon: Film },
+  { href: "/books", label: "Libros", icon: Book },
+  { href: "/quotes", label: "Frases", icon: Quote },
+  { href: "/chapters", label: "Capítulos", icon: Scroll },
+];
 ---
 
-<nav class="flex items-center gap-6 px-8 py-4 border-b border-zinc-800">
-  <a
-    href="/"
-    class={`text-xs uppercase tracking-widest transition-colors duration-200 hover:text-zinc-300 ${activeRoute("/")}`}
-  >
-    Personajes
-  </a>
-  <a
-    href="/movies"
-    class={`text-xs uppercase tracking-widest transition-colors duration-200 hover:text-zinc-300 ${activeRoute("/movies")}`}
-  >
-    Películas
-  </a>
+<nav class="fixed top-6 left-1/2 -translate-x-1/2 z-50 w-[95%] max-w-3xl">
+  <div class="bg-black/40 backdrop-blur-xl border border-white/10 px-8 py-3 rounded-2xl flex items-center justify-between shadow-[0_20px_50px_rgba(0,0,0,0.5)]">
+    <!-- Logo -->
+    <a href="/" class="flex items-center gap-3 group shrink-0">
+      <div class="p-2 bg-amber-500/10 rounded-xl border border-amber-500/20 group-hover:border-amber-500/40 transition-all">
+        <div class="w-2 h-2 rounded-full bg-amber-500 animate-pulse shadow-[0_0_10px_rgba(245,158,11,0.8)]"></div>
+      </div>
+      <span class="text-lg font-black tracking-tighter text-white font-serif italic">LOTR<span class="text-amber-500">.</span>DB</span>
+    </a>
+
+    <!-- Divider -->
+    <div class="h-6 w-px bg-white/10 hidden md:block"></div>
+
+    <!-- Nav Links -->
+    <ul class="flex items-center gap-2 sm:gap-4 overflow-x-auto no-scrollbar">
+      {navItems.map(item => (
+        <li>
+          <a 
+            href={item.href} 
+            class="group relative flex items-center gap-2 py-2 px-1"
+          >
+            <item.icon className="w-4 h-4 text-zinc-500 group-hover:text-amber-500 transition-colors" />
+            <span class="text-[9px] uppercase tracking-[0.2em] font-black text-zinc-500 group-hover:text-white transition-all hidden lg:block">
+              {item.label}
+            </span>
+            
+            <!-- Active Indicator -->
+            <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-amber-500 rounded-full group-hover:w-full transition-all duration-300"></div>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
 </nav>
+
+<style>
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+</style>

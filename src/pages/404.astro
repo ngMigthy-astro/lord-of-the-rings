@@ -1,0 +1,41 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { ChevronLeft, Flame } from "lucide-react";
+---
+
+<Layout title="404 — Perdido en las Sombras">
+  <main class="min-h-[80vh] flex flex-col items-center justify-center px-6 relative overflow-hidden">
+    <!-- Background Image -->
+    <div 
+      class="absolute inset-0 z-0 bg-cover bg-center opacity-40 grayscale group-hover:grayscale-0 transition-all duration-1000"
+      style="background-image: url('/404-moria.png');"
+    ></div>
+    <div class="absolute inset-0 bg-linear-to-t from-lotr-dark via-lotr-dark/80 to-transparent z-1"></div>
+
+    <div class="relative z-10 flex flex-col items-center text-center max-w-2xl">
+      <div class="mb-8 p-6 bg-amber-900/20 rounded-full border border-amber-500/30 shadow-[0_0_50px_rgba(245,158,11,0.2)] animate-pulse">
+        <Flame className="text-amber-500 w-12 h-12" />
+      </div>
+
+      <h1 class="text-8xl md:text-9xl font-black text-white font-serif italic mb-4 tracking-tighter drop-shadow-2xl">
+        404
+      </h1>
+      
+      <h2 class="text-3xl md:text-4xl font-bold text-amber-600 font-serif italic mb-8">
+        "Te has perdido en las Minas de Moria"
+      </h2>
+
+      <p class="text-zinc-400 text-lg mb-12 font-serif italic leading-relaxed">
+        El camino que buscas se ha desvanecido en la oscuridad. Ni siquiera Gandalf recordaría este pasadizo...
+      </p>
+
+      <a
+        href="/"
+        class="group flex items-center gap-4 px-10 py-5 bg-amber-600 text-white rounded-2xl font-black text-sm uppercase tracking-[0.3em] hover:bg-amber-500 transition-all shadow-[0_20px_40px_rgba(217,119,6,0.3)] hover:shadow-[0_20px_50px_rgba(217,119,6,0.5)] hover:-translate-y-1"
+      >
+        <ChevronLeft size={20} className="group-hover:-translate-x-2 transition-transform" />
+        Regresar a la Luz
+      </a>
+    </div>
+  </main>
+</Layout>

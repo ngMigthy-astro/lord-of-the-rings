@@ -1,0 +1,101 @@
+---
+export const prerender = false;
+
+import Layout from "@/layouts/Layout.astro";
+import { getBookById } from "@/services/books.service";
+import { getChapters } from "@/services/chapter.service";
+import { ChevronLeft, BookOpen, ScrollText } from "lucide-react";
+
+const { id } = Astro.params;
+if (!id) return Astro.redirect("/books");
+
+const [book, chapters] = await Promise.all([getBookById(id), getChapters(id)]);
+---
+
+<Layout title={book.name}>
+  <main class="container mx-auto px-6 py-20">
+    <!-- Back Navigation -->
+    <a
+      href="/books"
+      class="group inline-flex items-center gap-3 text-zinc-500 hover:text-amber-500 transition-all mb-16"
+    >
+      <div
+        class="p-2 rounded-full border border-white/5 group-hover:border-amber-500/20 group-hover:bg-amber-500/5 transition-all"
+      >
+        <ChevronLeft
+          size={18}
+          className="group-hover:-translate-x-1 transition-transform"
+        />
+      </div>
+      <span class="text-[10px] uppercase tracking-[0.4em] font-black"
+        >Regresar a los Archivos</span
+      >
+    </a>
+
+    <!-- Book Hero -->
+    <header class="relative mb-24 max-w-4xl">
+      <div class="flex items-center gap-4 mb-6">
+        <div class="p-3 bg-amber-500/10 rounded-2xl border border-amber-500/20">
+          <BookOpen className="text-amber-500 w-6 h-6" />
+        </div>
+        <div class="h-px w-12 bg-amber-900/50"></div>
+        <span
+          class="text-amber-600 text-[10px] tracking-[0.5em] font-black uppercase"
+          >Manuscrito Original</span
+        >
+      </div>
+
+      <h1
+        class="text-6xl md:text-8xl font-black text-white font-serif italic mb-6 tracking-tighter"
+      >
+        {book.name}
+      </h1>
+      <p class="text-zinc-500 text-lg font-serif italic">
+        Registrado en la Biblioteca de Minas Tirith
+      </p>
+    </header>
+
+    <!-- Chapters Section -->
+    <section>
+      <div class="flex items-center gap-6 mb-12">
+        <div class="p-3 bg-zinc-800/50 rounded-2xl border border-white/5">
+          <ScrollText className="text-zinc-500 w-6 h-6" />
+        </div>
+        <h2
+          class="text-3xl font-bold text-white font-serif italic tracking-tight"
+        >
+          Índice de Capítulos
+        </h2>
+        <div class="h-px flex-1 bg-linear-to-r from-white/5 to-transparent">
+        </div>
+        <span
+          class="text-[10px] uppercase tracking-[0.3em] font-bold text-zinc-600"
+          >{chapters.length} Entradas</span
+        >
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {
+          chapters.length > 0 ? (
+            chapters.map((chapter, index) => (
+              <div class="group p-6 bg-white/2 backdrop-blur-sm rounded-2xl border border-white/5 flex items-center gap-6 hover:bg-white/5 hover:border-amber-500/20 transition-all duration-300">
+                <span class="text-amber-900 font-serif italic text-2xl group-hover:text-amber-500 transition-colors">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span class="text-zinc-300 font-medium group-hover:text-white transition-colors">
+                  {chapter.chapterName}
+                </span>
+              </div>
+            ))
+          ) : (
+            <div class="col-span-full py-20 text-center bg-white/1 rounded-3xl border border-dashed border-white/5">
+              <p class="text-zinc-600 italic">
+                "Este tomo parece no tener capítulos registrados..."
+              </p>
+            </div>
+          )
+        }
+      </div>
+    </section>
+  </main>
+</Layout>

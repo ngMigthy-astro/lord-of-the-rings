@@ -1,0 +1,19 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import { getChapters } from "@/services/chapter.service";
+import { getBooks } from "@/services/books.service";
+import ChapterSearch from "@/components/chapters/ChapterSearch";
+
+const [chapters, books] = await Promise.all([
+  getChapters(),
+  getBooks()
+]);
+
+const booksMap = Object.fromEntries(books.map(b => [b.id, b.name]));
+---
+
+<Layout title="Índice Universal de Capítulos — La Tierra Media">
+  <main>
+    <ChapterSearch client:load chapters={chapters} booksMap={booksMap} />
+  </main>
+</Layout>
