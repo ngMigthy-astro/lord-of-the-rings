@@ -13,7 +13,7 @@ export default function ChapterSearch({ chapters, booksMap }: Props) {
   const itemsPerPage = 20;
 
   const filtered = chapters.filter((c) =>
-    c.chapterName.toLowerCase().includes(query.toLowerCase())
+    c.chapterName.toLowerCase().includes(query.toLowerCase()),
   );
 
   const totalPages = Math.ceil(filtered.length / itemsPerPage);
@@ -24,9 +24,13 @@ export default function ChapterSearch({ chapters, booksMap }: Props) {
     <section className="py-20 container mx-auto px-6">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
         <div className="space-y-2">
-          <h2 className="text-4xl font-bold font-serif italic text-white tracking-tight">Capítulos de Arda</h2>
+          <h2 className="text-4xl font-bold font-serif italic text-white tracking-tight">
+            Capítulos de Arda
+          </h2>
           <div className="h-1 w-24 bg-linear-to-r from-amber-600 to-transparent"></div>
-          <p className="text-zinc-500 text-sm italic font-serif">"Cada página cuenta una historia que cambiará el mundo..."</p>
+          <p className="text-zinc-500 text-sm italic font-serif">
+            "Cada página cuenta una historia que cambiará el mundo..."
+          </p>
         </div>
 
         <div className="relative group w-full max-w-md">
@@ -45,14 +49,14 @@ export default function ChapterSearch({ chapters, booksMap }: Props) {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {paginated.map((chapter) => (
-          <div 
-            key={chapter._id} 
+          <div
+            key={chapter._id}
             className="group p-6 bg-white/2 backdrop-blur-sm rounded-2xl border border-white/5 flex items-center gap-6 hover:bg-white/5 hover:border-amber-500/20 transition-all duration-300"
           >
             <div className="p-3 bg-white/5 rounded-xl text-zinc-600 group-hover:text-amber-600 group-hover:bg-amber-500/5 transition-all">
               <Hash size={16} />
             </div>
-            
+
             <div className="flex-1 overflow-hidden">
               <h3 className="text-zinc-200 font-medium truncate group-hover:text-white transition-colors">
                 {chapter.chapterName}
@@ -60,7 +64,7 @@ export default function ChapterSearch({ chapters, booksMap }: Props) {
               <div className="flex items-center gap-2 mt-1">
                 <Book size={10} className="text-zinc-600" />
                 <span className="text-[9px] uppercase tracking-widest text-zinc-500 truncate font-bold">
-                  {booksMap[chapter.book] || "Tomo Desconocido"}
+                  {chapter.book ? booksMap[chapter.book] : "Tomo Desconocido"}
                 </span>
               </div>
             </div>
@@ -77,10 +81,14 @@ export default function ChapterSearch({ chapters, booksMap }: Props) {
           >
             <ChevronLeft size={20} />
           </button>
-          
+
           <div className="flex flex-col items-center gap-1">
-            <span className="text-zinc-500 text-[10px] uppercase tracking-[0.3em] font-bold">Página</span>
-            <span className="text-amber-600 font-serif italic text-xl">{page} <span className="text-zinc-700 mx-2">/</span> {totalPages}</span>
+            <span className="text-zinc-500 text-[10px] uppercase tracking-[0.3em] font-bold">
+              Página
+            </span>
+            <span className="text-amber-600 font-serif italic text-xl">
+              {page} <span className="text-zinc-700 mx-2">/</span> {totalPages}
+            </span>
           </div>
 
           <button

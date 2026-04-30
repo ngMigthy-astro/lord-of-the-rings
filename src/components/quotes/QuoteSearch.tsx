@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type { Quote } from "@/schemas/quote.schema";
-import { Search, ChevronLeft, ChevronRight, Quote as QuoteIcon, User, Film } from "lucide-react";
+import { Search, ChevronLeft, ChevronRight, User, Film } from "lucide-react";
 
 interface Props {
   readonly quotes: Quote[];
@@ -8,14 +8,21 @@ interface Props {
   readonly moviesMap: Record<string, string>;
 }
 
-export default function QuoteSearch({ quotes, charactersMap, moviesMap }: Props) {
+export default function QuoteSearch({
+  quotes,
+  charactersMap,
+  moviesMap,
+}: Props) {
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const itemsPerPage = 12;
 
-  const filtered = quotes.filter((q) =>
-    q.dialog.toLowerCase().includes(query.toLowerCase()) ||
-    (charactersMap[q.character] || "").toLowerCase().includes(query.toLowerCase())
+  const filtered = quotes.filter(
+    (q) =>
+      q.dialog.toLowerCase().includes(query.toLowerCase()) ||
+      (charactersMap[q.character] || "")
+        .toLowerCase()
+        .includes(query.toLowerCase()),
   );
 
   const totalPages = Math.ceil(filtered.length / itemsPerPage);
@@ -26,9 +33,13 @@ export default function QuoteSearch({ quotes, charactersMap, moviesMap }: Props)
     <section className="py-20 container mx-auto px-6">
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
         <div className="space-y-2">
-          <h2 className="text-4xl font-bold font-serif italic text-white tracking-tight">Palabras de Arda</h2>
+          <h2 className="text-4xl font-bold font-serif italic text-white tracking-tight">
+            Palabras de Arda
+          </h2>
           <div className="h-1 w-24 bg-linear-to-r from-amber-600 to-transparent"></div>
-          <p className="text-zinc-500 text-sm italic font-serif">"Lo que ha sido dicho no puede ser olvidado..."</p>
+          <p className="text-zinc-500 text-sm italic font-serif">
+            "Lo que ha sido dicho no puede ser olvidado..."
+          </p>
         </div>
 
         <div className="relative group w-full max-w-md">
@@ -47,12 +58,14 @@ export default function QuoteSearch({ quotes, charactersMap, moviesMap }: Props)
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {paginated.map((quote) => (
-          <div 
-            key={quote.id} 
+          <div
+            key={quote.id}
             className="relative p-8 bg-white/2 backdrop-blur-md rounded-3xl border border-white/5 hover:border-amber-500/30 transition-all duration-500 group flex flex-col h-full"
           >
-            <div className="absolute top-4 right-6 text-4xl text-amber-500/5 font-serif select-none group-hover:text-amber-500/10 transition-colors">“</div>
-            
+            <div className="absolute top-4 right-6 text-4xl text-amber-500/5 font-serif select-none group-hover:text-amber-500/10 transition-colors">
+              “
+            </div>
+
             <p className="text-zinc-200 text-lg italic leading-relaxed font-serif relative z-10 mb-8 flex-1">
               {quote.dialog}
             </p>
@@ -84,10 +97,14 @@ export default function QuoteSearch({ quotes, charactersMap, moviesMap }: Props)
           >
             <ChevronLeft size={20} />
           </button>
-          
+
           <div className="flex flex-col items-center gap-1">
-            <span className="text-zinc-500 text-[10px] uppercase tracking-[0.3em] font-bold">Registro</span>
-            <span className="text-amber-600 font-serif italic text-xl">{page} <span className="text-zinc-700 mx-2">/</span> {totalPages}</span>
+            <span className="text-zinc-500 text-[10px] uppercase tracking-[0.3em] font-bold">
+              Registro
+            </span>
+            <span className="text-amber-600 font-serif italic text-xl">
+              {page} <span className="text-zinc-700 mx-2">/</span> {totalPages}
+            </span>
           </div>
 
           <button
